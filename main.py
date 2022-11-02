@@ -1,12 +1,12 @@
 from dotenv import load_dotenv
 import os
+import sys
 import requests
 import networkx as nx
 
 def main():
-    # eventually read these in as command line args
-    artist1 = 'Potsu'
-    artist2 = 'Pig Destroyer'
+    artist1 = sys.argv[1]
+    artist2 = sys.argv[2]
 
     load_dotenv()
 
