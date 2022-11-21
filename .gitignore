@@ -1,2 +1,4 @@
 .env
 *.gexf
+*.gml
+*.pyc

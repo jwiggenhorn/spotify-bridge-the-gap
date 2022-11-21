@@ -8,20 +8,11 @@ def main():
     artist1 = sys.argv[1]
     artist2 = sys.argv[2]
 
-    load_dotenv()
-
-    auth_response = requests.post('https://accounts.spotify.com/api/token', {
-        'grant_type': 'client_credentials',
-        'client_id': os.environ["CLIENT_ID"],
-        'client_secret': os.environ["CLIENT_SECRET"],
-    }).json()
-    access_token = auth_response['access_token']
-
-    G = nx.Graph()
-
+    access_token = get_access_token()
     source = get_artist_id(artist1, access_token)
     goal = get_artist_id(artist2, access_token)
 
+    G = nx.Graph()
     G.add_node(source, name=artist1)
     G.add_node(goal, name=artist2)
 
@@ -39,6 +30,24 @@ def main():
             add_related_artists(G, node, access_token)
 
     nx.write_gexf(G, "artists.gexf")
+    nx.write_gml(G, "artists.gml")
+
+    source = [node for node, attr in G.nodes(data=True) if attr['name']==artist1][0]
+    target = [node for node, attr in G.nodes(data=True) if attr['name']==artist2][0]
+
+    path = [G.nodes[node]['name'] for node in nx.shortest_path(G, source, target)]
+
+    print('We bridged the gap!')
+    print(*path, sep = " -> ")
+
+def get_access_token():
+    load_dotenv()
+    auth_response = requests.post('https://accounts.spotify.com/api/token', {
+        'grant_type': 'client_credentials',
+        'client_id': os.environ["CLIENT_ID"],
+        'client_secret': os.environ["CLIENT_SECRET"],
+    }).json()
+    return auth_response['access_token']
 
 def get_artist_id(artist_name, access_token):
     response = requests.get('https://api.spotify.com/v1/search', {
