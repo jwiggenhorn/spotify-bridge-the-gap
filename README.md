@@ -1,4 +1,4 @@
-# Setup
+## Setup
 
 First, install dependencies with `pip install -r requirements.txt`.
 
@@ -9,7 +9,7 @@ CLIENT_ID=2b3578263588c74b690210ed75b7b71
 CLIENT_SECRET=31461804df163a9cdab42680d5abe123
 ```
 
-# Usage
+## Usage
 
 Once you're all set up, you can run the main script by passing in two artist names as command line arguments. Note that artist names with multiple words will need to be wrapped in quotes. Here's an example:
 
