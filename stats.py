@@ -1,10 +1,11 @@
+import sys
 import networkx as nx
 import matplotlib.pyplot as plt
 
 G = nx.read_gml("artists.gml")
 
-source = [node for node, attr in G.nodes(data=True) if attr['name']=='potsu'][0]
-target = [node for node, attr in G.nodes(data=True) if attr['name']=='Pig Destroyer'][0]
+source = [node for node, attr in G.nodes(data=True) if attr['name']==sys.argv[1]][0]
+target = [node for node, attr in G.nodes(data=True) if attr['name']==sys.argv[2]][0]
 
 path = [G.nodes[node]['name'] for node in nx.shortest_path(G, source, target)]
 print(f'Shortest path length: {len(path)}')
